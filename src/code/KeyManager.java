@@ -20,7 +20,6 @@ public class KeyManager implements KeyListener {
      * We simply call the realeast function to set the boolean Up there to false
      */
 
-
     @Override
     public void keyPressed(KeyEvent e) {
         

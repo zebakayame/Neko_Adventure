@@ -3,6 +3,7 @@ package code;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Toolkit;
 
 import javax.swing.JPanel;
@@ -15,16 +16,18 @@ public class GamePanel extends JPanel implements Runnable{
     public static double ScreenWidth = screenSize.getWidth();
     public static double ScreenHeight = screenSize.getHeight();
 
-    final static int originalTilesSize = 32;
-    final static int scale = 2;
-    final static int widthTilesCount = 16;
-    final static int heightTilesCount = 9;
+    public final int originalTilesSize = 32;
+    public final int scale = 2;
+    public final static int widthTilesCount = 16;
+    public final static int heightTilesCount = 9;
+    public final int tilesScale = originalTilesSize * scale;
 
-    public static int APP_WIDTH = originalTilesSize * scale * widthTilesCount;
-    public static int APP_HEIGHT = originalTilesSize * scale * heightTilesCount;
+    public int APP_WIDTH = originalTilesSize * scale * widthTilesCount;
+    public int APP_HEIGHT = originalTilesSize * scale * heightTilesCount;
 
     Thread gameThread;
-    KeyManager keyManager = new KeyManager();
+    KeyManager keyManager = new KeyManager(); // Call the KeyManager
+    Player player = new Player(keyManager, this); // Make the player
 
     final int updatePerSecondCount = 24; // The "fps" of the game update
     final int tickSize = 1000 / updatePerSecondCount; // Time needed when the game update each second
@@ -58,14 +61,12 @@ public class GamePanel extends JPanel implements Runnable{
 
             long currentTime = System.currentTimeMillis();
             long timeToWait = currentTime + tickSize;
-            System.out.println("currentTime: " + currentTime + " after 1 sec: " + timeToWait);
             
             // while for waiting that the currentTime hit the or is bigger than the Time to wait
             // After this it will proceed to update the game
             while (currentTime<timeToWait) {
                 currentTime = System.currentTimeMillis(); // Update the currentTime and keep track of it
             }
-            System.out.println("Oh yeah");
 
             //  Update the game
             update();
@@ -80,12 +81,8 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void update(){
         
-
-        /*if(keyManager.upPressed){
-            System.out.println("Up is pressed");
-        }else{
-            System.out.println("Nope");
-        }*/
+        player.updatePlayer();
+        
     }
 
     // Already implemented class from library, don't ask how it works, it just works
@@ -93,8 +90,13 @@ public class GamePanel extends JPanel implements Runnable{
         
         super.paintComponent(g);
 
-        // Graphics2D g2 = (Graphics2D)g;
+        Graphics2D g2 = (Graphics2D)g;
         
+        // Clear everything
+        g2.setBackground(Color.BLACK);
+
+        player.drawPlayer(g2);
+
         
     }
 
