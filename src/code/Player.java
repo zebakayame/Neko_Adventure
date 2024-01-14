@@ -1,7 +1,11 @@
 package code;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class Player {
 
@@ -27,8 +31,15 @@ public class Player {
 
     public void drawPlayer(Graphics2D g2){
         
-        g2.setColor(Color.BLUE);
-        g2.fillRect(playerX, playerY, gp.tilesScale, gp.tilesScale);
+        BufferedImage img = null;
+        try {
+            img = ImageIO.read(new File("src/ressource/Texture/player.png"));
+            img = img.getSubimage(0, 0 , 32, 64); // Gets the sub image of the player charachter
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+
+        g2.drawImage(img, playerX, playerY, gp.tilesScale, gp.tilesScale * 2, gp);
 
     }
 
