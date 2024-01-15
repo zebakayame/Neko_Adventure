@@ -9,16 +9,18 @@ import javax.imageio.ImageIO;
 
 public class Player {
 
-    public static int playerX = 100;
-    public static int playerY = 100;
+    public static int playerX = 0;
+    public static int playerY = 0;
 
     public double veloX;
     public double veloY;
 
-    public static int playerSpeed = 5;
+    public double initialPlayerSpeed = 5; 
+    public double playerSpeed = 5;
     // the key manager the player need to intereact
     KeyManager keyM;
     GamePanel gp;
+    Debog deb = new Debog();
 
     public String imgStat = "down";
 
@@ -29,6 +31,9 @@ public class Player {
 
     public void updatePlayer(){
         positionUpdate();
+
+
+        deb.consoleDebog("Player position: " + playerX + "\t" + playerY);
     }
 
     public void drawPlayer(Graphics2D g2){
@@ -52,26 +57,24 @@ public class Player {
         switch (imgStat) {
             case "up":
                 imgToDraw = imgup;
-                g2.drawImage(imgToDraw, playerX, playerY, gp.tilesScale, gp.tilesScale * 2, gp);
+                g2.drawImage(imgToDraw, 7 * gp.tilesScale, (int) (2.5 * gp.tilesScale), gp.tilesScale, gp.tilesScale * 2, gp);
                 break;
             case "down":
                 imgToDraw = imgdown;
-                g2.drawImage(imgToDraw, playerX, playerY, gp.tilesScale, gp.tilesScale * 2, gp);
+                g2.drawImage(imgToDraw, 7 * gp.tilesScale, (int) (2.5 * gp.tilesScale), gp.tilesScale, gp.tilesScale * 2, gp);
                 break;
             case "left":
                 imgToDraw = imgleft;
-                g2.drawImage(imgToDraw, playerX, playerY, gp.tilesScale, gp.tilesScale * 2, gp);
+                g2.drawImage(imgToDraw, 7 * gp.tilesScale, (int) (2.5 * gp.tilesScale), gp.tilesScale, gp.tilesScale * 2, gp);
                 break;
             case "right":
                 imgToDraw = imgright;
-                g2.drawImage(imgToDraw, playerX +  gp.tilesScale , playerY, -gp.tilesScale, gp.tilesScale * 2, gp);
+                g2.drawImage(imgToDraw, 7 * gp.tilesScale +  gp.tilesScale , (int) (2.5 * gp.tilesScale), -gp.tilesScale, gp.tilesScale * 2, gp);
                 break;
             default:
-                g2.drawImage(imgdown, playerX, playerY, gp.tilesScale, gp.tilesScale * 2, gp);
+                g2.drawImage(imgdown, 7 * gp.tilesScale, (int) (2.5 * gp.tilesScale), gp.tilesScale, gp.tilesScale * 2, gp);
                 break;
         }
-        
-
 
     }
 
@@ -96,6 +99,12 @@ public class Player {
         if (keyM.leftPressed) {
             veloX = -1;
             imgStat = "left";
+        }
+
+        if(keyM.shiftPressed){
+            playerSpeed = initialPlayerSpeed * 2.5;
+        }else{
+            playerSpeed = initialPlayerSpeed;
         }
         
         // Normalize the vector, this is for the up-right, up-left and etc. movement 
