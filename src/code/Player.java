@@ -20,6 +20,8 @@ public class Player {
     KeyManager keyM;
     GamePanel gp;
 
+    public String imgStat = "down";
+
     public Player(KeyManager keyM, GamePanel gp){
         this.keyM = keyM; // settings up the keyManager so the player can access it
         this.gp = gp;
@@ -32,14 +34,44 @@ public class Player {
     public void drawPlayer(Graphics2D g2){
         
         BufferedImage img = null;
+        BufferedImage imgdown = null;
+        BufferedImage imgup = null;
+        BufferedImage imgleft = null;
+        BufferedImage imgright = null;
+        BufferedImage imgToDraw = null;
         try {
-            img = ImageIO.read(new File("src/ressource/Texture/player.png"));
-            img = img.getSubimage(0, 0 , 32, 64); // Gets the sub image of the player charachter
+            img = ImageIO.read(new File("/home/kuku/Documents/VisualStudioWorkSpace/Project/Neko_Adventure/src/ressource/Texture/player.png"));
+            imgdown = img.getSubimage(0, 0 , 32, 64); // Gets the sub image of the player charachter
+            imgup = img.getSubimage(32, 0, 32, 64);
+            imgleft = img.getSubimage(64, 0, 32, 64);
+            imgright = img.getSubimage(64, 0, 32, 64);
         } catch (IOException e) {
             System.out.println(e);
         }
+        
+        switch (imgStat) {
+            case "up":
+                imgToDraw = imgup;
+                g2.drawImage(imgToDraw, playerX, playerY, gp.tilesScale, gp.tilesScale * 2, gp);
+                break;
+            case "down":
+                imgToDraw = imgdown;
+                g2.drawImage(imgToDraw, playerX, playerY, gp.tilesScale, gp.tilesScale * 2, gp);
+                break;
+            case "left":
+                imgToDraw = imgleft;
+                g2.drawImage(imgToDraw, playerX, playerY, gp.tilesScale, gp.tilesScale * 2, gp);
+                break;
+            case "right":
+                imgToDraw = imgright;
+                g2.drawImage(imgToDraw, playerX +  gp.tilesScale , playerY, -gp.tilesScale, gp.tilesScale * 2, gp);
+                break;
+            default:
+                g2.drawImage(imgdown, playerX, playerY, gp.tilesScale, gp.tilesScale * 2, gp);
+                break;
+        }
+        
 
-        g2.drawImage(img, playerX, playerY, gp.tilesScale, gp.tilesScale * 2, gp);
 
     }
 
@@ -51,15 +83,19 @@ public class Player {
         // Makle the velocity vector
         if(keyM.upPressed){
             veloY = -1;
+            imgStat = "up";
         }
         if(keyM.downPressed){
             veloY = 1;
+            imgStat = "down";
         }
         if(keyM.rightPressed){
             veloX = 1;
+            imgStat = "right";
         }
         if (keyM.leftPressed) {
             veloX = -1;
+            imgStat = "left";
         }
         
         // Normalize the vector, this is for the up-right, up-left and etc. movement 
