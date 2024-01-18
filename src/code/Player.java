@@ -14,7 +14,7 @@ public class Player {
 
     public double veloX;
     public double veloY;
-
+    
     public double initialPlayerSpeed = 5; 
     public double playerSpeed = 5;
     // the key manager the player need to intereact
@@ -46,33 +46,42 @@ public class Player {
         BufferedImage imgToDraw = null;
         try {
             img = ImageIO.read(new File("/home/kuku/Documents/VisualStudioWorkSpace/Project/Neko_Adventure/src/ressource/Texture/player.png"));
-            imgdown = img.getSubimage(0, 0 , 32, 64); // Gets the sub image of the player charachter
-            imgup = img.getSubimage(32, 0, 32, 64);
-            imgleft = img.getSubimage(64, 0, 32, 64);
-            imgright = img.getSubimage(64, 0, 32, 64);
+            imgdown = img.getSubimage(0, 0 , 64, 64); // Gets the sub image of the player charachter
+            imgup = img.getSubimage(64, 0, 64, 64);
+            imgright = img.getSubimage(128, 0, 64, 64);
+            imgleft = img.getSubimage(192, 0, 64, 64);
         } catch (IOException e) {
             System.out.println(e);
         }
         
+
+        // Movement CLASS
+        // Depending on Stat of hte image (imgStat), show specific Image for movement
+        
+
+        // TODO => Implement alpha for Camera "player Move"
+        int width_movement = gp.APP_WIDTH_MIDDLE;
+        int height_movement = gp.APP_HEIGHT_MIDDLE;
+
         switch (imgStat) {
             case "up":
                 imgToDraw = imgup;
-                g2.drawImage(imgToDraw, 7 * gp.tilesScale, (int) (2.5 * gp.tilesScale), gp.tilesScale, gp.tilesScale * 2, gp);
+                g2.drawImage(imgToDraw, width_movement, height_movement, gp.tilesScale, gp.tilesScale, gp);
                 break;
             case "down":
                 imgToDraw = imgdown;
-                g2.drawImage(imgToDraw, 7 * gp.tilesScale, (int) (2.5 * gp.tilesScale), gp.tilesScale, gp.tilesScale * 2, gp);
+                g2.drawImage(imgToDraw, width_movement, height_movement, gp.tilesScale, gp.tilesScale, gp);
                 break;
             case "left":
                 imgToDraw = imgleft;
-                g2.drawImage(imgToDraw, 7 * gp.tilesScale, (int) (2.5 * gp.tilesScale), gp.tilesScale, gp.tilesScale * 2, gp);
+                g2.drawImage(imgToDraw, width_movement, height_movement, gp.tilesScale, gp.tilesScale, gp);
                 break;
             case "right":
                 imgToDraw = imgright;
-                g2.drawImage(imgToDraw, 7 * gp.tilesScale +  gp.tilesScale , (int) (2.5 * gp.tilesScale), -gp.tilesScale, gp.tilesScale * 2, gp);
+                g2.drawImage(imgToDraw, width_movement, height_movement, gp.tilesScale, gp.tilesScale, gp);
                 break;
             default:
-                g2.drawImage(imgdown, 7 * gp.tilesScale, (int) (2.5 * gp.tilesScale), gp.tilesScale, gp.tilesScale * 2, gp);
+                g2.drawImage(imgdown, width_movement, height_movement, gp.tilesScale, gp.tilesScale, gp);
                 break;
         }
 
@@ -83,7 +92,7 @@ public class Player {
         veloX = 0;
         veloY = 0;
 
-        // Makle the velocity vector
+        // Make the velocity vector
         if(keyM.upPressed){
             veloY = -1;
             imgStat = "up";
@@ -112,7 +121,7 @@ public class Player {
             double length = Math.sqrt(veloX * veloX + veloY * veloY);
             veloX = (veloX / length) * playerSpeed;
             veloY = (veloY / length) * playerSpeed;
-        }
+                    }
 
         // Apply the velocity
         playerX += veloX;

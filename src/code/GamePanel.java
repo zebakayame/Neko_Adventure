@@ -16,14 +16,17 @@ public class GamePanel extends JPanel implements Runnable{
     public static double ScreenWidth = screenSize.getWidth();
     public static double ScreenHeight = screenSize.getHeight();
 
-    public final int originalTilesSize = 32;
-    public final int scale = 2;
+    public final int originalTilesSize = 64;
+    public final int scale = 1;
     public final int widthTilesCount = 15;
     public final int heightTilesCount = 9;
     public final int tilesScale = originalTilesSize * scale;
 
     public int APP_WIDTH = originalTilesSize * scale * widthTilesCount;
     public int APP_HEIGHT = originalTilesSize * scale * heightTilesCount;
+
+    public int APP_WIDTH_MIDDLE = APP_WIDTH/2 - tilesScale-2;
+    public int APP_HEIGHT_MIDDLE = APP_HEIGHT/2 - tilesScale-2;
 
     Thread gameThread;
     KeyManager keyManager = new KeyManager(); // Call the KeyManager
@@ -93,7 +96,8 @@ public class GamePanel extends JPanel implements Runnable{
         Graphics2D g2 = (Graphics2D)g;
         
         // Clear everything
-        g2.setBackground(Color.BLACK);
+        g2.setColor(Color.LIGHT_GRAY);
+        g2.fillRect(0, 0, APP_WIDTH, APP_HEIGHT);
 
         player.drawPlayer(g2);
 
