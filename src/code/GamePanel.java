@@ -30,7 +30,9 @@ public class GamePanel extends JPanel implements Runnable{
 
     Thread gameThread;
     KeyManager keyManager = new KeyManager(); // Call the KeyManager
-    Player player = new Player(keyManager, this); // Make the player
+    Mapping mapping = new Mapping(this);
+    Player player = new Player(keyManager, this, mapping); // Make the player
+    
 
     final int updatePerSecondCount = 32; // The "fps" of the game update
     final int tickSize = 1000 / updatePerSecondCount; // Time needed when the game update each second
@@ -96,11 +98,9 @@ public class GamePanel extends JPanel implements Runnable{
         Graphics2D g2 = (Graphics2D)g;
         
         // Clear everything
-        g2.setColor(Color.LIGHT_GRAY);
-        g2.fillRect(0, 0, APP_WIDTH, APP_HEIGHT);
-
+        mapping.drawMap(g2);
         player.drawPlayer(g2);
-
+        
         
     }
 

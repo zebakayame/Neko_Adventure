@@ -21,6 +21,7 @@ public class Player {
     KeyManager keyM;
     GamePanel gp;
     Debog deb = new Debog();
+    Mapping mapper;
 
     public String imgStat = "down";
 
@@ -35,16 +36,17 @@ public class Player {
     BufferedImage imgright;
     BufferedImage imgToDraw;
 
-    public Player(KeyManager keyM, GamePanel gp){
+    public Player(KeyManager keyM, GamePanel gp, Mapping mapper){
         this.keyM = keyM; // settings up the keyManager so the player can access it
         this.gp = gp;
+        this.mapper = mapper;
     }
 
     public void updatePlayer(){
         positionUpdate();
 
         //System.out.println(playerTexturePath);
-        deb.consoleDebog("Player position: " + playerX + "\t" + playerY);
+        //deb.consoleDebog("Player position: " + playerX + "\t" + playerY);
     }
 
     public void drawPlayer(Graphics2D g2){
@@ -136,6 +138,7 @@ public class Player {
         // Apply the velocity
         playerX += veloX;
         playerY += veloY;
-
+        // change map location
+        mapper.changeAlpha(playerX, playerY);
     }
 }
