@@ -25,8 +25,8 @@ public class GamePanel extends JPanel implements Runnable{
     public int APP_WIDTH = originalTilesSize * scale * widthTilesCount;
     public int APP_HEIGHT = originalTilesSize * scale * heightTilesCount;
 
-    public int APP_WIDTH_MIDDLE = APP_WIDTH/2 - tilesScale-2;
-    public int APP_HEIGHT_MIDDLE = APP_HEIGHT/2 - tilesScale-2;
+    public int APP_WIDTH_HOOPER = APP_WIDTH/2 - tilesScale-2;
+    public int APP_HEIGHT_HOOPER = APP_HEIGHT/2 - tilesScale-2;
 
     Thread gameThread;
     KeyManager keyManager = new KeyManager(); // Call the KeyManager

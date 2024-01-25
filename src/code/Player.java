@@ -15,8 +15,10 @@ public class Player {
     public double veloX;
     public double veloY;
     
-    public double initialPlayerSpeed = 5; 
-    public double playerSpeed = 5;
+    public double initialPlayerSpeed = 10; 
+    public double playerSpeed = initialPlayerSpeed;
+    public double gravity = 5;
+
     // the key manager the player need to intereact
     KeyManager keyM;
     GamePanel gp;
@@ -59,8 +61,8 @@ public class Player {
         
 
         // TODO => Implement alpha for Camera "player Move"
-        int width_movement = gp.APP_WIDTH_MIDDLE;
-        int height_movement = gp.APP_HEIGHT_MIDDLE;
+        int width_movement = gp.APP_WIDTH_HOOPER;
+        int height_movement = gp.APP_HEIGHT_HOOPER;
 
         switch (imgStat) {
             case "up":
@@ -102,17 +104,16 @@ public class Player {
     private void positionUpdate() {
         // init the velocity to 0
         veloX = 0;
-        veloY = 0;
 
         // Make the velocity vector
-        if(keyM.upPressed){
-            veloY = -1;
+        if(keyM.upPressed && veloY >= 0){
+            veloY = -50;
             imgStat = "up";
         }
-        if(keyM.downPressed){
+        /*if(keyM.downPressed){
             veloY = 1;
             imgStat = "down";
-        }
+        }*/
         if(keyM.rightPressed){
             veloX = 1;
             imgStat = "right";
@@ -128,17 +129,42 @@ public class Player {
             playerSpeed = initialPlayerSpeed;
         }
         
-        // Normalize the vector, this is for the up-right, up-left and etc. movement 
+        /*// Normalize the vector, this is for the up-right, up-left and etc. movement 
         if(veloX != 0 || veloY != 0){
             double length = Math.sqrt(veloX * veloX + veloY * veloY);
             veloX = (veloX / length) * playerSpeed;
             veloY = (veloY / length) * playerSpeed;
-                    }
-
+        }*/
+        
+        if(!collisionCheckY()){
+            veloY += gravity;
+            playerY += veloY;
+        }else{
+            playerY = (int)(playerY / gp.tilesScale) * gp.tilesScale; 
+            if(playerY + veloY < playerY){
+                playerY+= veloY;
+            }
+        }
+        deb.consoleDebog("" + veloY);
         // Apply the velocity
-        playerX += veloX;
-        playerY += veloY;
+        playerX += veloX * playerSpeed;
+        
         // change map location
         mapper.changeAlpha(playerX, playerY);
+    }
+
+    private boolean collisionCheckY() {
+        int playerXTile = playerX / gp.tilesScale;
+        int playerYTile = playerY / gp.tilesScale;
+
+        int tileType_Down = mapper.map[playerXTile][playerYTile + 1];
+
+        boolean touch = false;
+        
+        if(mapper.checkIfCollisioner(tileType_Down)){
+            touch = true;
+        }
+        return touch;
+
     }
 }

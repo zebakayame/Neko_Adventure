@@ -79,8 +79,8 @@ public class Mapping {
     public void drawMap(Graphics2D gp2){
         for(int i = 0; i < map.length;i++){
             for(int j=0;j<map[0].length; j++){
-                int x = i*gp.tilesScale + alphaX;
-                int y = j*gp.tilesScale + alphaY;
+                int x = i*gp.tilesScale + alphaX + gp.APP_WIDTH_HOOPER;
+                int y = j*gp.tilesScale + alphaY + gp.APP_HEIGHT_HOOPER;
                 if(map[i][j] == 0){
                     gp2.setColor(Color.GRAY);
                     gp2.fillRect(x, y, gp.tilesScale, gp.tilesScale);
@@ -90,5 +90,15 @@ public class Mapping {
                 }
             }
         }
+    }
+
+    public boolean checkIfCollisioner(int tileType_Down) {
+        boolean yes = false;
+        if(tileType_Down == 1){
+            yes = true;
+        }else{
+            yes = false;
+        }
+        return yes;
     }
 }
