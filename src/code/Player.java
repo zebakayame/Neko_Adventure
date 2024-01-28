@@ -15,15 +15,17 @@ public class Player {
     public double veloX;
     public double veloY;
     
-    public double initialPlayerSpeed = 10; 
-    public double playerSpeed = initialPlayerSpeed;
-    public double gravity = 5;
-
     // the key manager the player need to intereact
     KeyManager keyM;
     GamePanel gp;
     Debog deb = new Debog();
     Mapping mapper;
+
+    public double initialPlayerSpeed = 10; 
+    public double playerSpeed = initialPlayerSpeed;
+    public double gravity = 5;
+    public double maxGravity;
+
 
     public String imgStat = "down";
 
@@ -42,6 +44,7 @@ public class Player {
         this.keyM = keyM; // settings up the keyManager so the player can access it
         this.gp = gp;
         this.mapper = mapper;
+        this.maxGravity = gp.tilesScale;
     }
 
     public void updatePlayer(){
@@ -106,7 +109,8 @@ public class Player {
         veloX = 0;
 
         // Make the velocity vector
-        if(keyM.upPressed && veloY >= 0){
+        if(keyM.upPressed && veloY == 0){
+            
             veloY = -50;
             imgStat = "up";
         }
@@ -137,13 +141,19 @@ public class Player {
         }*/
         
         if(!collisionCheckY()){
-            veloY += gravity;
+            if(veloY <= maxGravity){
+                veloY += gravity;
+            }else{
+                veloY = maxGravity;
+            }
+            
             playerY += veloY;
         }else{
             playerY = (int)(playerY / gp.tilesScale) * gp.tilesScale; 
             if(playerY + veloY < playerY){
                 playerY+= veloY;
             }
+            veloY = 0;
         }
         deb.consoleDebog("" + veloY);
         // Apply the velocity

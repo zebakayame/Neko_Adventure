@@ -7,6 +7,8 @@ public class KeyManager implements KeyListener {
 
     public boolean upPressed, downPressed, leftPressed, rightPressed, shiftPressed;
 
+    Debog deb = new Debog();
+
     @Override
     public void keyTyped(KeyEvent e) {
         
@@ -25,7 +27,7 @@ public class KeyManager implements KeyListener {
         
         int keyCode = e.getKeyCode(); // return key code of the key Pressed
 
-        if(keyCode == KeyEvent.VK_W){
+        if(keyCode == KeyEvent.VK_SPACE){
             upPressed = true;
         }
         if(keyCode == KeyEvent.VK_S){
@@ -47,7 +49,7 @@ public class KeyManager implements KeyListener {
     public void keyReleased(KeyEvent e) {
         int keyCode = e.getKeyCode(); // return key code of the key Pressed
 
-        if(keyCode == KeyEvent.VK_W){
+        if(keyCode == KeyEvent.VK_SPACE){
             upPressed = false;
         }
         if(keyCode == KeyEvent.VK_S){
