@@ -14,7 +14,7 @@ public class App {
         
         JFrame window = new JFrame("Neko Adventure");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setResizable(false);
+        window.setResizable(true);
 
         GamePanel gamePanel = new GamePanel();
         window.add(gamePanel);

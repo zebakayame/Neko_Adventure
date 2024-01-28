@@ -25,7 +25,7 @@ public class Player {
     public double playerSpeed = initialPlayerSpeed;
     public double gravity = 5;
     public double maxGravity;
-
+    public boolean onFloor = false;
 
     public String imgStat = "down";
 
@@ -109,8 +109,8 @@ public class Player {
         veloX = 0;
 
         // Make the velocity vector
-        if(keyM.upPressed && veloY == 0){
-            
+        if(keyM.upPressed && veloY == 0 && onFloor == true){
+            onFloor = false;
             veloY = -50;
             imgStat = "up";
         }
@@ -154,6 +154,7 @@ public class Player {
                 playerY+= veloY;
             }
             veloY = 0;
+            onFloor = true;
         }
         deb.consoleDebog("" + veloY);
         // Apply the velocity
