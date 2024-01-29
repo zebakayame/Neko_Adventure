@@ -32,6 +32,7 @@ public class GamePanel extends JPanel implements Runnable{
     KeyManager keyManager = new KeyManager(); // Call the KeyManager
     Mapping mapping = new Mapping(this);
     Player player = new Player(keyManager, this, mapping); // Make the player
+    public CollisionChecker collChecker = new CollisionChecker(this);
     
 
     final int updatePerSecondCount = 32; // The "fps" of the game update

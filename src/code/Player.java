@@ -1,6 +1,7 @@
 package code;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +16,8 @@ public class Player {
     public double veloX;
     public double veloY;
     
+    public Rectangle solidArea;
+
     // the key manager the player need to intereact
     KeyManager keyM;
     GamePanel gp;
@@ -25,6 +28,8 @@ public class Player {
     public double playerSpeed = initialPlayerSpeed;
 
     public String imgStat = "down";
+
+    boolean collisionOn;
 
     // Get the current of the project
     private String playerTexturePath = System.getProperty("user.dir") + "/assets/Texture/player.png";
@@ -41,6 +46,7 @@ public class Player {
         this.keyM = keyM; // settings up the keyManager so the player can access it
         this.gp = gp;
         this.mapper = mapper;
+        this.solidArea = new Rectangle(0,0, gp.tilesScale, gp.tilesScale);
     }
 
     public void updatePlayer(){
@@ -121,6 +127,9 @@ public class Player {
             veloX = -1;
             imgStat = "left";
         }
+
+        collisionOn = false;
+        gp.collChecker.checkTile(this);
 
         if(keyM.shiftPressed){
             playerSpeed = initialPlayerSpeed * 2.5;
