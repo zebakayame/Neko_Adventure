@@ -23,9 +23,6 @@ public class Player {
 
     public double initialPlayerSpeed = 10; 
     public double playerSpeed = initialPlayerSpeed;
-    public double gravity = 5;
-    public double maxGravity;
-    public boolean onFloor = false;
 
     public String imgStat = "down";
 
@@ -44,7 +41,6 @@ public class Player {
         this.keyM = keyM; // settings up the keyManager so the player can access it
         this.gp = gp;
         this.mapper = mapper;
-        this.maxGravity = gp.tilesScale;
     }
 
     public void updatePlayer(){
@@ -109,8 +105,7 @@ public class Player {
         veloX = 0;
 
         // Make the velocity vector
-        if(keyM.upPressed && veloY == 0 && onFloor == true){
-            onFloor = false;
+        if(keyM.upPressed){
             veloY = -50;
             imgStat = "up";
         }
@@ -140,23 +135,6 @@ public class Player {
             veloY = (veloY / length) * playerSpeed;
         }*/
         
-        if(!collisionCheckY()){
-            if(veloY <= maxGravity){
-                veloY += gravity;
-            }else{
-                veloY = maxGravity;
-            }
-            
-            playerY += veloY;
-        }else{
-            playerY = (int)(playerY / gp.tilesScale) * gp.tilesScale; 
-            if(playerY + veloY < playerY){
-                playerY+= veloY;
-            }
-            veloY = 0;
-            onFloor = true;
-        }
-        deb.consoleDebog("" + veloY);
         // Apply the velocity
         playerX += veloX * playerSpeed;
         
@@ -164,18 +142,5 @@ public class Player {
         mapper.changeAlpha(playerX, playerY);
     }
 
-    private boolean collisionCheckY() {
-        int playerXTile = playerX / gp.tilesScale;
-        int playerYTile = playerY / gp.tilesScale;
-
-        int tileType_Down = mapper.map[playerXTile][playerYTile + 1];
-
-        boolean touch = false;
-        
-        if(mapper.checkIfCollisioner(tileType_Down)){
-            touch = true;
-        }
-        return touch;
-
-    }
+    
 }

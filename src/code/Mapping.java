@@ -91,14 +91,4 @@ public class Mapping {
             }
         }
     }
-
-    public boolean checkIfCollisioner(int tileType_Down) {
-        boolean yes = false;
-        if(tileType_Down == 1){
-            yes = true;
-        }else{
-            yes = false;
-        }
-        return yes;
-    }
 }
